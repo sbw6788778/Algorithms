@@ -13,20 +13,18 @@ public class UF {
 			a[i]=i;
 	}
 	public void  union(int p,int q){
-		int idP=a[p];
-		int idQ=a[q];
-		if(connected(p,q))
-			return;
-		for(int i=0;i<a.length;i++){
-			if(a[i]==idP)
-				a[i]=idQ;}
+		int rootP=find(p);
+		int rootQ=find(q);
+		if(rootQ==rootP) return;
+		a[rootP]=rootQ;
 		N--;
 	}
 	public int find(int p){
-		return a[p];
+		while(p!=a[p]) p=a[p];
+		return p;
 	}
 	public boolean connected(int p,int q){
-		return a[p]==a[q];
+		return find(p)==find(q);
 	}
 	public int count(){
 		return N;
