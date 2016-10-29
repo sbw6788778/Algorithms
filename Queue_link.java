@@ -1,28 +1,34 @@
 package Algorithms;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
-public class Stack_link<T> {
+import java.util.*;
+public class Queue_link<T> implements Iterable<T> {
+	private Node first;
+	private Node last;
 	private int N;
-	private Node first=new Node();
 	private class Node{
 		T value;
 		Node next;
 	}
-	public void push(T value){
-		Node oldFirst=first;
-		first=new Node();
-		first.value=value;
-		first.next=oldFirst;
+	public void enqueue( T value){
+		Node oldLast=last;
+		last=new Node();
+		last.value=value;
+		last.next=null;
+		if(isEmpty())
+			first=last;
+		else oldLast.next=last;
 		N++;
 	}
-	public T pop(){
+	public T dequeue(){
 		T a=first.value;
 		first=first.next;
+		if(isEmpty()) last=null;
 		N--;
-		return a; 
+		return a;
 	}
 	public boolean isEmpty(){
-		return first==null;
+		return N==0;
 	}
 	public int size(){
 		return N;
@@ -38,13 +44,14 @@ public class Stack_link<T> {
 			}
 		};
 	}
+	
 	public static void main(String[] args) {
-		Stack_link stack=new Stack_link();
+	     Queue_link<String> stack=new Queue_link<String>();
 		while(!StdIn.isEmpty()){
 			String item=StdIn.readString();
 			if(!item.equals("-"))
-				stack.push(item);
-			else if(!stack.isEmpty()) System.out.println(stack.pop());
+				stack.enqueue(item);
+			else if(!stack.isEmpty()) System.out.println(stack.dequeue());
 		}
 		StdOut.println("("+stack.size()+"left on stsck)");
 	}
